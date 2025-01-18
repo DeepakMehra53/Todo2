@@ -6,7 +6,7 @@ const app= express()
 const PORT = process.env.PORT ||3000;
 app.use(express.json())
 
-app.get('api/v1/todos',async(req,res)=>{
+app.get('/api/v1/todos',async(req,res)=>{
     try {
         const result = await pool.query(`SELECT * FROM todos`)
         res.json(result.rows);
@@ -28,7 +28,7 @@ app.post("/api/v1/create",async(req,res)=>{
    else{
         try {
             const result =await pool.query(
-                `INSERT INTO todos(title,description) VALUES($1,$2) RETURING *`
+                `INSERT INTO todos(title,description) VALUES($1,$2) RETURNING *`,
                 [title,description]
             )
             res.status(201).json(result.rows[0]);
@@ -41,7 +41,7 @@ app.post("/api/v1/create",async(req,res)=>{
 
 })
 
-app.put("/api/v1/update",(req,res)=>{
+app.put("/api/v1/update/:id",(req,res)=>{
 
     const{id}=req.params
     const{title,description}=req.body
@@ -58,8 +58,8 @@ app.put("/api/v1/update",(req,res)=>{
             `UPDATE todos 
             SET title = $1,
             description= $2
-            RETUNRING *`
-            [title,description]
+            RETUNRING *`,
+            [title,description,id]
         );
         if(result.rows.length>0){
             res.json(result.rows[0])
