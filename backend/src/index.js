@@ -32,6 +32,7 @@ app.post("/api/v1/create",async(req,res)=>{
                 [title,description]
             )
             res.status(201).json(result.rows[0]);
+            res.json({msg:'Todo created'})
         } catch (err) {
             console.error("Error inserting todo:", err);
             res.status(500).send("Server error");
