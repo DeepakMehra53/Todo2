@@ -15,7 +15,7 @@ export const Todos: React.FC<TodosProps> = ({ todos }) => {
           <div>
             <h1>{todo.title}</h1>
             <h2>{todo.description}</h2>
-            <button>
+            <button className="p-1 border border-black rounded-md">
               {todo.completed == true ? "Completed" : "Mark as Done"}
             </button>
           </div>

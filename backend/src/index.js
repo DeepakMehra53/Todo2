@@ -1,17 +1,19 @@
 const express = require ('express');
-
+const cors = require('cors')
 const pool = require('./db');
 const { createTodo } = require('./types');
 const app= express()
 const PORT = process.env.PORT ||3000;
 app.use(express.json())
-
+app.use(cors({
+    origin:"http://localhost:5173"
+}))
 app.get('/api/v1/todos',async(req,res)=>{
     try {
         const result = await pool.query(`SELECT * FROM todos`)
         res.json(result.rows);
     } catch (error) {
-        console.error("Error fetching todos:",err)
+        console.error("Error fetching todos:",error)
         res.status(500).send("Server errro")
     }
 })
@@ -32,7 +34,7 @@ app.post("/api/v1/create",async(req,res)=>{
                 [title,description]
             )
             res.status(201).json(result.rows[0]);
-            res.json({msg:'Todo created'})
+         
         } catch (err) {
             console.error("Error inserting todo:", err);
             res.status(500).send("Server error");
