@@ -1,14 +1,26 @@
-
-export const Todos =({todos})=>{
-    return (
-        <div>
-            {todos.map(function(todo){
-                return <div>
-                    <h1>{todo.title}</h1>
-                    <h2>{todo.description}</h2>
-                    <button>{todo.completed== true ? "Completed" : "Mark as Done" }</button>
-                </div>
-            })}
-        </div>
-    )
+interface Todos {
+    id:number,
+    title:string,
+    description:string,
+    completed:boolean
 }
+interface TodosProps{
+    todos:Todos[];
+}
+export const Todos: React.FC<TodosProps> = ({ todos }) => {
+  return (
+    <div>
+      {todos.map(function (todo) {
+        return (
+          <div>
+            <h1>{todo.title}</h1>
+            <h2>{todo.description}</h2>
+            <button>
+              {todo.completed == true ? "Completed" : "Mark as Done"}
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
