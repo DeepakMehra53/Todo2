@@ -1,5 +1,5 @@
 const express = require ('express');
-const{}
+
 const pool = require('./db');
 const { createTodo } = require('./types');
 const app= express()
@@ -16,7 +16,7 @@ app.get('api/v1/todos',async(req,res)=>{
     }
 })
 
-app.post("/api/v1/create",(req,res)=>{
+app.post("/api/v1/create",async(req,res)=>{
     const {title,description}=req.body
     const createPayload= req.body;
     const parsedPayload = createTodo.safeParse(createPayload)
@@ -25,10 +25,69 @@ app.post("/api/v1/create",(req,res)=>{
             msg:"You sent the wrong inputs"
         })
     }
-    else{
+   else{
+        try {
+            const result =await pool.query(
+                `INSERT INTO todos(title,description) VALUES($1,$2) RETURING *`
+                [title,description]
+            )
+            res.status(201).json(result.rows[0]);
+        } catch (err) {
+            console.error("Error inserting todo:", err);
+            res.status(500).send("Server error");
 
+        }
     }
 
+})
+
+app.put("/api/v1/update",(req,res)=>{
+
+    const{id}=req.params
+    const{title,description}=req.body
+
+    const updateparse = req.body
+    const parsedPayload = updateparse.safeParse(updateparse)
+    if (!parsedPayload.success) {
+        res.status(411).json({
+            msg: "You sent the wrong inputs"
+        })
+    }
+    try {
+        const result= pool.query(
+            `UPDATE todos 
+            SET title = $1,
+            description= $2
+            RETUNRING *`
+            [title,description]
+        );
+        if(result.rows.length>0){
+            res.json(result.rows[0])
+        }else{
+            res.status(404).send("Todo not found")
+        }
+    } catch (err) {
+        console.error("Error updating todo:",err)
+        res.status(500).send("Server error")
+    }
+    
+})
+
+app.delete('/api/v1/todos/:id',async(req,res)=>{
+    const{id}=req.params;
+    try{
+        const result=await pool.query(`
+            DELETE FROM todos WHERE id = $1 RETURNING *
+            `,[id])
+        if(result.rows.length>0){
+            res.json({ msg:"Todo deleted successfully"})
+        }else{
+            res.status(404).send("Todo not found")
+        }
+    }catch(err){
+        console.error("Error deleting todo:",err)
+        res.status(500).send("Server error")
+    }
 })
 
 
