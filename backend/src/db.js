@@ -1,34 +1,27 @@
-// db.js
-const { Pool } = require('pg'); // Import the Pool class from the 'pg' package
+const { Pool } = require('pg');
 
-// Create a pool of connections to the PostgreSQL database
 const pool = new Pool({
-  connectionString:"postgresql://postgres:deepak@localhost:5432/postgres"                // Default PostgreSQL port
+    connectionString: "postgresql://postgres:deepak@localhost:5432/postgres",
 });
 
-// Create the 'todos' schema (table)
 const createSchema = async () => {
-    const client = await pool.connect();
+    const client = await pool.connect(); // Properly await the connection
     try {
         await client.query(`
       CREATE TABLE IF NOT EXISTS todos (
         id SERIAL PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        description TEXT,
-        completed BOOLEAN DEFAULT FALSE,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        title VARCHAR(255),
+        description TEXT
       );
     `);
-        console.log("Todos schema created successfully or already exists.");
-    } catch (err) {
-        console.error("Error creating schema:", err);
+        console.log("TODO table created successfully!");
+    } catch (error) {
+        console.error("Error while creating table:", error);
     } finally {
-        client.release();
+        client.release(); // Release the client properly
     }
 };
 
-// Connect to the database and create the schema
 createSchema();
 
-module.exports = pool; // Export the pool for use in other files
+module.exports = pool;
