@@ -1,7 +1,6 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
@@ -12,9 +11,17 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "nodemon": "^3.1.9",
-    "pg": "^8.13.1",
-    "zod": "^3.24.1"
-  }
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "pg": "^8.15.6",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "prisma": "^6.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "keywords": [],
+  "description": ""
 }
