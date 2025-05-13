@@ -1,21 +1,20 @@
 import { PrismaClient } from "@prisma/client";
 import express ,{Request,Response}from "express";
 const app = express();
-
 const prisma = new PrismaClient()
-app.post('/api/user',async(req:Request,res:Response)=>{
-    const 
-})
-async function insertData(username:string,password:string,email:string){
-   const res= await prisma.user.create({
+
+app.post("/api/v1/user/signup",async(req:Request,res:Response)=>{
+    const {username,email,password}= req.body;
+    const signup = await prisma.user.create({
         data:{
             username,
-            password,
-            email
+            email,
+            password
+        }
+    })
+    res.status(200).json(signup);
+})
 
-        } 
-     })
-     console.log(res)
-}
-
-insertData("deepak1","pawnwaiwe13","deepak12@gmail.com");
+app.listen(3000,()=>{
+    console.log('Server is running on port no. 3000')
+})
