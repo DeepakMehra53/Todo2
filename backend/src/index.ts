@@ -15,6 +15,11 @@ app.post("/api/v1/user/signup",async(req:Request,res:Response)=>{
     res.status(200).json(signup);
 })
 
+
+app.post('/api/v1/user/signin',async(req:Request,res:Response)=>{
+    const 
+})
+
 app.listen(3000,()=>{
     console.log('Server is running on port no. 3000')
 })
