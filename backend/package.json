@@ -10,9 +10,9 @@
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:studio": "npx prisma studio"
   },
-
   "devDependencies": {
     "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.17",
     "nodemon": "^3.1.10",
     "prisma": "^6.7.0",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.7.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
   }
 }
