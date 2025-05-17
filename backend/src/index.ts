@@ -7,6 +7,9 @@ const JWT_SECRET:string = "Brother>=Stong"
 const app = express();
 app.use(express.json())
 const prisma = new PrismaClient()
+
+
+
 app.post("/api/v1/user/signup",async(req:Request,res:Response)=>{
     const {username,email,password}= req.body;
     try {
@@ -25,10 +28,10 @@ app.post("/api/v1/user/signup",async(req:Request,res:Response)=>{
    
 })
 
-app.post('/api/v1/user/signin',(req:Request,res:Response)=>{
+app.post('/api/v1/user/signin',async(req:Request,res:Response)=>{
     const {username,password}=  req.body
     try {
-        const signin = prisma.user.findFirst({
+        const signin =await prisma.user.findFirst({
             where:{
                 username,
                 password
@@ -41,8 +44,7 @@ app.post('/api/v1/user/signin',(req:Request,res:Response)=>{
             })
         }
 
-        const token = jwt.sign({id:signin?.id},JWT_SECRET)
-        return res.json(token)
+        
     } catch (error) {
         console.log(error)
         res.status(403);
