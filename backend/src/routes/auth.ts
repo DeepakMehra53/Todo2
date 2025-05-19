@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { signinSchema,signupSchema } from "../validators/auth";
@@ -11,9 +11,9 @@ const router =Router();
 const prisma = new PrismaClient();
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret234aa@r24"
+//@ts-ignore
 
-
-router.post('/signup', async (req: Request, res: Response) => {
+router.post('/signup',async(req,res)=>{
     const parse =  signupSchema.safeParse(req.body);
     if (!parse.success) return res.status(400).json({ error: parse.error.errors });
 
@@ -25,12 +25,13 @@ router.post('/signup', async (req: Request, res: Response) => {
         const user = await prisma.user.create({data:{username,email,password:hashed}})
         return res.status(200).json({msg:"User  created",user:user.id })
     } catch (error) {
+        console.log(error);
         res.status(500).json({error:'Server error'})
     }
 
 })
-export default router;
-router.post('/signin', async (req: Request, res: Response) => {
+//@ts-ignore
+router.post('/signin',async(req,res)=>{
     const parse =  signinSchema.safeParse(req.body);
     if(!parse.success) return res.status(400).json({error:parse.error.errors});
 

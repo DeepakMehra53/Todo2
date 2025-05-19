@@ -17,11 +17,12 @@ const express_1 = require("express");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const auth_1 = require("../validators/auth");
-const route = (0, express_1.Router)();
+const router = (0, express_1.Router)();
 const prisma = new client_1.PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret234aa@r24";
-route.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const parse = yield auth_1.signupSchema.safeParse(req.body);
+//@ts-ignore
+router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const parse = auth_1.signupSchema.safeParse(req.body);
     if (!parse.success)
         return res.status(400).json({ error: parse.error.errors });
     const { username, password, email } = parse.data;
@@ -31,14 +32,15 @@ route.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             return res.status(400).json({ msg: "User already exists" });
         const hashed = yield bcrypt_1.default.hash(password, 10);
         const user = yield prisma.user.create({ data: { username, email, password: hashed } });
-        return res.status(200).json({ msg: "User created", user: user.id });
+        return res.status(200).json({ msg: "User  created", user: user.id });
     }
     catch (error) {
         res.status(500).json({ error: 'Server error' });
     }
 }));
-route.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const parse = yield auth_1.signinSchema.safeParse(req.body);
+//@ts-ignore
+router.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const parse = auth_1.signinSchema.safeParse(req.body);
     if (!parse.success)
         return res.status(400).json({ error: parse.error.errors });
     const { email, password } = parse.data;
@@ -56,4 +58,4 @@ route.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(500).json({ error: 'Server error' });
     }
 }));
-exports.default = route;
+exports.default = router;
