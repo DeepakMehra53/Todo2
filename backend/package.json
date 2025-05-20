@@ -11,7 +11,7 @@
     "prisma:studio": "npx prisma studio"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1",
+    "@types/express": "^4.17.22",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.17",
     "nodemon": "^3.1.10",
