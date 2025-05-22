@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, ChangeEventHandler } from 'react'
 import { Link } from 'react-router-dom'
 
 export const Auth = () => {
@@ -10,20 +10,28 @@ export const Auth = () => {
         <div className='text-slate-500 '>Create a account? 
             <Link to={"/signin"}> Login</Link>
         </div>
+        <div>
+          <Label  label="Username" placeholder='deepak@gmail.com'/>
+        </div>
     </div>
   )
 }
 
 
 interface LableControl {
-  type:string,
-  lable:string,
-  placeholder:string,
-  onChange:ChangeEvent<HTMLInputElement>
-  
+  type?:string;
+  label:string;
+  placeholder:string;
+  onChange?:ChangeEventHandler<HTMLInputElement>
+  value?:string;
   
 }
 
-function Label ({type,lable,placeholder,onChange}:LableControl){
-    return 
+function Label ({type,label,placeholder,onChange,value}:LableControl){
+    return (
+      <div>
+        <label >{label}</label>
+        <input type={type || "text"} onChange={onChange} value={value} placeholder={placeholder}/>
+      </div>
+    )
 }
