@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { Link } from 'react-router-dom'
 
 export const Auth = () => {
@@ -17,9 +17,13 @@ export const Auth = () => {
 
 interface LableControl {
   type:string,
+  lable:string,
+  placeholder:string,
+  onChange:ChangeEvent<HTMLInputElement>
+  
   
 }
 
-function Label ({type,lable,placeholder,onChange}){
-    
+function Label ({type,lable,placeholder,onChange}:LableControl){
+    return 
 }
