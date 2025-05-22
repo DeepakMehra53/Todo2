@@ -14,6 +14,12 @@ export const Auth = () => {
   )
 }
 
-function Label ({}){
+
+interface LableControl {
+  type:string,
+  
+}
+
+function Label ({type,lable,placeholder,onChange}){
     
 }
