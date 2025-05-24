@@ -1,14 +1,11 @@
-  import React, { ChangeEvent, ChangeEventHandler, useState } from 'react'
+  import React, {  ChangeEventHandler, useState } from 'react'
   import { Link } from 'react-router-dom'
 
   export const Auth = () => {
     const[username,setUsername]=useState("");
     const[password,setPassword]=useState("");
 
-    const handleUseName: ChangeEventHandler<HTMLInputElement> = (e) => {
-       setUsername(e.target.value);
-      
-    };
+    
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="text-3xl font-semibold ">Authentification</div>
@@ -18,7 +15,7 @@
         </div>
         <div className="flex flex-col">
           <Label
-            onChange={handleUseName}
+            onChange={(e)=>setUsername(e.target.value)}
             label="Username"
             placeholder="deepak@gmail.com"
           />
