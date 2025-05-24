@@ -18,11 +18,13 @@
             onChange={(e)=>setUsername(e.target.value)}
             label="Username"
             placeholder="deepak@gmail.com"
+            value={username}
           />
           <Label
             onChange={(e) => setPassword(e.target.value)}
             label="password"
             placeholder="D@$fa324*&"
+            value={password}
           />
           <button
             type="button"
