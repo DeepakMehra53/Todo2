@@ -29,9 +29,9 @@ interface LableControl {
 
 function Label ({type,label,placeholder,onChange,value}:LableControl){
     return (
-      <div>
+      <div className='flex flex-col'>
         <label >{label}</label>
-        <input type={type || "text"} onChange={onChange} value={value} placeholder={placeholder}/>
+        <input type={type || "text"} onChange={onChange} value={value} placeholder={placeholder} />
       </div>
     )
 }
