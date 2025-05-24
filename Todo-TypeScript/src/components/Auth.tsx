@@ -12,6 +12,8 @@ export const Auth = () => {
         </div>
         <div>
           <Label  label="Username" placeholder='deepak@gmail.com'/>
+          <Label  label="password" placeholder='D@$fa324*&'/>
+          <button type='button'>Submit</button>
         </div>
     </div>
   )
@@ -31,7 +33,7 @@ function Label ({type,label,placeholder,onChange,value}:LableControl){
     return (
       <div className='flex flex-col'>
         <label >{label}</label>
-        <input type={type || "text"} onChange={onChange} value={value} placeholder={placeholder} />
+        <input type={type || "text"} onChange={onChange} value={value} placeholder={placeholder} className='border rounded-md border-slate-400' />
       </div>
     )
 }
