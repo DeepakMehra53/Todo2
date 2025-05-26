@@ -1,0 +1,40 @@
+name: Frontend CI/CD
+
+on:
+  push:
+    paths:
+      - 'TODO-Typescripts/**'
+  pull_request:
+    paths:
+      - 'TODO-Typescripts/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: TODO-Typescripts
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key
+          chmod 600 private_key
+          scp -i private_key -r dist/ user@$SERVER_IP:/path/to/frontend
+          ssh -i private_key user@$SERVER_IP 'pm2 restart frontend'
