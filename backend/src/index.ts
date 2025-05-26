@@ -1,11 +1,13 @@
 
 import express from 'express';
 import authRoutes from './routes/auth';
+import cors from 'cors'
 
 const app = express();
 const port:number=Number(process.env.PORT) || 3000
 app.use(express.json());
 app.use('/', authRoutes);
+app.use(cors())
 
 app.listen(port,()=>{
     console.log(`The server is running on http://localhost:${port}`);

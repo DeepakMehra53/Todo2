@@ -4,7 +4,31 @@
   export const Auth = () => {
     const[username,setUsername]=useState("");
     const[password,setPassword]=useState("");
+    const[email,setEmail]=useState('')
 
+    const handleSubmit = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, email, password }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert("Signup successful!");
+          // Optionally redirect
+        } else {
+          alert(`Error: ${data.message || "Signup failed"}`);
+        }
+      } catch (err) {
+        alert("Network error");
+        console.error(err);
+      }
+    };
+    
     
     return (
       <div className="flex flex-col items-center justify-center h-screen">
@@ -15,10 +39,16 @@
         </div>
         <div className="flex flex-col">
           <Label
-            onChange={(e)=>setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             label="Username"
-            placeholder="deepak@gmail.com"
+            placeholder="Deepak"
             value={username}
+          />
+          <Label
+            onChange={(e) => setEmail(e.target.value)}
+            label="Email"
+            placeholder="deepak@gmail.com"
+            value={email}
           />
           <Label
             onChange={(e) => setPassword(e.target.value)}
@@ -28,6 +58,7 @@
           />
           <button
             type="button"
+            onClick={handleSubmit}
             className="mt-2 border border-black rounded-lg bg-slate-400 hover:bg-green-300"
           >
             Submit
@@ -51,7 +82,7 @@
       return (
         <div className='flex flex-col'>
           <label >{label}</label>
-          <input type={type || "text"} onChange={onChange} value={value} placeholder={placeholder} className='border rounded-md border-slate-400' />
+          <input type={type || "text"} onChange={onChange} value={value} placeholder={placeholder} className='mb-2 border rounded-md border-slate-400' />
         </div>
       )
   }
