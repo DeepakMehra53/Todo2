@@ -4,6 +4,7 @@ import userRoutes from '../src/routes/user_routes';
 import bodyParser from 'body-parser';
 import { JWT_SECRET } from '../src/config/config';
 import jwt from 'jsonwebtoken';
+import { describe } from '@jest/globals';
 
 const app: Application = express();
 app.use(bodyParser.json());
