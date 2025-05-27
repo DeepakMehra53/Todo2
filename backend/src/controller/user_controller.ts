@@ -14,6 +14,8 @@ export class UserController {
 
     static async me(req: Request, res: Response) {
         res.json({ msg: 'You are authenticated', userId: req.user?.userId });
-      }
+    }
+
+    
 
 }
