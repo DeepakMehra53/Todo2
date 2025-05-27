@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 
 /src/generated/prisma
+
+node_modules/
+coverage/
+.jest/
+.cache/
