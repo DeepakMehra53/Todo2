@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient()
 
-export const createTodo = async ({ title, done, description }: { title: string;done:boolean, description: string }) => {
+export const createTodo = async ({ title, description,done }: { title: string;done:boolean, description: string }) => {
     try {
         const todo = await prisma.todo.create({
             data: {
