@@ -91,3 +91,7 @@ app.post('/api/v1/user/signin', async (req: Request, res: Response) => {
 
 
 })
+
+app.listen(PORT,()=>{
+    console.log(`Server running on https://localhost:${PORT}`)
+})
