@@ -9,3 +9,11 @@ export class UserService {
         return this.prisma.user.create({ data: { email, password, username } })
     }
 }
+
+export class TodoService{
+    private prisma = new PrismaClient()
+    async createTodo (title:string,description:string,done:boolean,userId:number){
+        return this.prisma.todo.create({data:{title,description,done,userId}})
+    }
+    
+}
