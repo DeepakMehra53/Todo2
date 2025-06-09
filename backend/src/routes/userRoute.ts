@@ -1,11 +1,11 @@
-import { Router,Request,Response } from "express";
+import { Router, Request, Response } from "express";
 import { UserController } from "../controllers/userControllers";
 
 const router = Router();
 const controller = new UserController();
 function asyncHandler(fn: (req: Request, res: Response) => Promise<any>) {
     return (req: Request, res: Response, next: Function) => {
-        fn(req, res).catch((err)=>next(err));
+        fn(req, res).catch((err) => next(err));
     };
 }
 

@@ -1,22 +1,22 @@
-import { Request,Response } from "express";
+import { Request, Response } from "express";
 import bcrypt from 'bcrypt';
 import { sign } from "jsonwebtoken";
-import { signupSchema,signinSchema, SignupInput } from "../validators/fromValidators";
+import { signupSchema, signinSchema, SignupInput } from "../validators/fromValidators";
 import { UserService } from '../services/userServices';
 import { JWT_SECRET } from '../config/default';
 
 
-export class UserController{
+export class UserController {
     private userService = new UserService()
 
-    async signup (req:Request,res:Response){
+    async signup(req: Request, res: Response) {
         const result = signupSchema.safeParse(req.body)
-        if(!result.success){
-            res.status(400).json({message:"Invalid input"})
+        if (!result.success) {
+            res.status(400).json({ message: "Invalid input" })
             return
         }
-        const {email,password,username}:SignupInput= result.data;   
-        const existingUser =await this.userService.findByEmail(email)
+        const { email, password, username }: SignupInput = result.data;
+        const existingUser = await this.userService.findByEmail(email)
         if (existingUser) return res.status(400).json({ msg: "User already exists" });
 
         const hashed = await bcrypt.hash(password, 10);
@@ -35,5 +35,5 @@ export class UserController{
 
         const token = sign({ id: user.id }, JWT_SECRET);
         return res.json({ jwt: token });
-      }
+    }
 }
