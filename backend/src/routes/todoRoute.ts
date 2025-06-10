@@ -16,7 +16,7 @@ router.use(authMiddleware);
 
 router.post("/todo",asyncHandler((req,res,next:NextFunction)=>controller.createTodo(req,res)))
 router.put("/uptodo",asyncHandler((req,res,next:NextFunction)=>controller.updateTodo(req,res)))
-router.get("/:id",asyncHandler((req,res,next:NextFunction)=>controller.getTodoById(req,res)))
 router.get("/todos",asyncHandler((req,res,next:NextFunction)=>controller.getTodos(req,res)))
+router.get("/:id",asyncHandler((req,res,next:NextFunction)=>controller.getTodoById(req,res)))
 
 export default router;
