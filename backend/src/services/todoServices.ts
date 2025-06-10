@@ -11,8 +11,12 @@ export class TodoServices {
         return prisma.todo.update({ where: { id }, data: { title, description ,done } })
     }
 
-    list(skip:number,take:number){
-        return prisma.todo.findMany({skip,take})
+    async getAllTodosByUserId(userId: number, skip: number, limit: number) {
+        return prisma.todo.findMany({
+            where: { userId },
+            skip,
+            take: limit,
+        });
     }
 
     get(id: number) {

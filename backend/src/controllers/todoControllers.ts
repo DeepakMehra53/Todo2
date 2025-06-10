@@ -4,6 +4,7 @@ import { updateTodo, createTodo } from '../validators/fromValidators';
 import { boolean, string } from "yargs";
 import { error } from "console";
 import { title } from "process";
+import { AuthenticatedRequest } from '../types/express';
 
 
 
@@ -39,11 +40,12 @@ export class TodoController {
 
     }
 
-    async getTodos (req:Request,res:Response){
+    async getTodos (req:AuthenticatedRequest,res:Response){
         const page=parseInt(req.query.page as string || '1')
         const limit =parseInt(req.query.limit as string || '10')
         const skip =    (page-1)*limit;
-        const todos =await this.todoServices.list(skip,limit);
+        const userId = parseInt((req as any).userId);
+        const todos = await this.todoServices.getAllTodosByUserId(userId,skip,limit);
         return res.json({page,limit,data:todos});
     }
     async getTodoById(req: Request, res: Response) {
