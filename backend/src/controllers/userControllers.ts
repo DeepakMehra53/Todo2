@@ -22,7 +22,7 @@ export class UserController {
         const hashed = await bcrypt.hash(password, 10);
         const user = await this.userService.createUser(email, hashed, username);
         const token = sign({ id: user.id }, JWT_SECRET);
-        return res.json({ jwt: token });
+        return res.status(200).json({ msg: "User created", token });
     }
     async signin(req: Request, res: Response) {
         const result = signinSchema.safeParse(req.body);
@@ -34,6 +34,10 @@ export class UserController {
             return res.status(400).json({ message: "Invalid email or password" });
 
         const token = sign({ id: user.id }, JWT_SECRET);
-        return res.json({ jwt: token });
+        return res.status(200).json({ jwt: token });
+    }
+    async getMe(req: Request, res: Response) {
+        const userId = (req as any).userId;
+        return res.status(200).json({ userId });
     }
 }
