@@ -19,9 +19,10 @@ export const createTodo = z.object({
 })
 
 export const updateTodo = z.object({
+    id:z.number(),
     title: z.string().min(1).optional(),
     description: z.string().min(1).optional(),
-    done: z.boolean()
+    done: z.boolean().optional()
 })
 
 export type UpdateTodo = z.infer<typeof updateTodo>

@@ -7,8 +7,8 @@ export class TodoServices {
     }
 
 
-    update(id: number, title: string, description: string) {
-        return prisma.todo.update({ where: { id }, data: { title, description } })
+    update(id: number, title?: string, description?: string, done?: boolean) {
+        return prisma.todo.update({ where: { id }, data: { title, description ,done } })
     }
 
     list(skip:number,take:number){
