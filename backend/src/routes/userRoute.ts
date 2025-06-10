@@ -1,17 +1,41 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { UserController } from "../controllers/userControllers";
 import { authMiddleware } from "../middleware/authMiddleware";
+import { AuthenticatedRequest } from "../types/express"; // Make sure this file exists
 
 const router = Router();
 const controller = new UserController();
-function asyncHandler(fn: (req: Request, res: Response) => Promise<any>) {
-    return (req: Request, res: Response, next: Function) => {
-        fn(req, res).catch((err) => next(err));
+
+// Error-handling wrapper for async route handlers
+function asyncHandler(
+    fn: (req: Request, res: Response, next: NextFunction) => Promise<any>
+) {
+    return (req: Request, res: Response, next: NextFunction) => {
+        fn(req, res, next).catch(next);
     };
 }
 
-router.post("/signup", asyncHandler((req, res) => controller.signup(req, res)));
-router.post("/signin", asyncHandler((req, res) => controller.signin(req, res)));
-router.get("/me",authMiddleware,asyncHandler(async(req:Request,res:Response)=>{return res.json({userId:req.user.id})}))
+// Routes
+router.post(
+    "/signup",
+    asyncHandler((req: Request, res: Response, next: NextFunction) =>
+        controller.signup(req, res)
+    )
+);
+
+router.post(
+    "/signin",
+    asyncHandler((req: Request, res: Response, next: NextFunction) =>
+        controller.signin(req, res)
+    )
+);
+
+router.get(
+    "/me",
+    authMiddleware,
+    asyncHandler(async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        return   await res.json({ userId: req.userId });
+    })
+);
 
 export default router;

@@ -4,6 +4,7 @@ import { sign } from "jsonwebtoken";
 import { signupSchema, signinSchema, SignupInput } from "../validators/fromValidators";
 import { UserService } from '../services/userServices';
 import { JWT_SECRET } from '../config/default';
+import { AuthenticatedRequest } from "../types/express";
 
 
 export class UserController {
@@ -34,10 +35,10 @@ export class UserController {
             return res.status(400).json({ message: "Invalid email or password" });
 
         const token = sign({ id: user.id }, JWT_SECRET);
-        return res.status(200).json({ jwt: token });
+        return res.status(200).json({  token });
     }
-    async getMe(req: Request, res: Response) {
-        const userId = (req as any).userId;
-        return res.status(200).json({ userId });
+    async getMe(req: AuthenticatedRequest, res: Response) {
+        return res.status(200).json({ userId: req.userId });
+
     }
 }

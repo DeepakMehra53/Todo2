@@ -1,22 +1,22 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from '../config/default';
+import { JWT_SECRET } from "../config/default";
+import { AuthenticatedRequest } from "../types/express";
 
-
-export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader?.replace('Bearer ', '').trim();
-
-    if (!token) {
-        res.status(403).json({ msg: "Unauthorized" });
-        return;
+export function authMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction):void {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith(`Bearer`)) {
+       res.status(401).json({ message: "Unauthorized" });
+       return
     }
 
+    const token = authHeader.split(" ")[1];
     try {
-        const decoded = jwt.verify(token, JWT_SECRET) as { id: number };
-        (req as any).userId = decoded.id;
+        const decoded = jwt.verify(token, JWT_SECRET) as { id: string };
+        req.userId = decoded.id;
         next();
-    } catch (error) {
-        res.status(403).json({ msg: 'Unauthorized' });
+    } catch {
+         res.status(401).json({ message: "Invalid token" });
+         return
     }
-};
+}
