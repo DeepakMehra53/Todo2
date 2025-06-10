@@ -2,7 +2,7 @@ import request from 'supertest';
 import express, { Application } from 'express';
 import userRoutes from '../src/routes/user_routes';
 import bodyParser from 'body-parser';
-import { JWT_SECRET } from '../src/config/config';
+import { JWT_SECRET } from '../src/config/default';
 import jwt from 'jsonwebtoken';
 import { describe } from '@jest/globals';
 
