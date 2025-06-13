@@ -1,7 +1,42 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import  { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { InputField } from "./InputField";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
-export const Auth = ({type}:{type:"singup"|"signin"}) => {
+interface SigninInput {
+  name?: string;
+  username: string;
+  password: string;
+}
+export const Auth = ({ type }: { type: "singup" | "signin" }) => {
+  const navigate = useNavigate();
+
+  const [ postInput,setPostInput] = useState<SigninInput>({
+    name:"",
+    username:"",
+    password:""
+  });
+
+  const sendRequest =async()=>{
+    try {
+      const res = await axios.post(`${BACKEND_URL}/api/v1/user/${type==="singup"?"signup":"signin"}`,postInput);
+      const jwt = res.data.jwt;
+      if(!jwt){
+        throw new Error ("Token is undefined in response");
+      }
+      localStorage.setItem("token",jwt)
+      navigate('/dashboard');
+    } catch (error) {
+       if (axios.isAxiosError(error)) {
+         console.error("Axios error:", error.response?.data);
+         alert(`Error: ${error.response?.data?.message || "Request failed"}`);
+       } else {
+         console.error("Unknown error:", error);
+         alert("Unknown error occurred");
+       }
+    }
+  }
   return (
     <div className="flex flex-col justify-center h-screen">
       <div className="flex justify-center ">
@@ -9,23 +44,27 @@ export const Auth = ({type}:{type:"singup"|"signin"}) => {
           <div className="px-10">
             <div className="font-semibold text-4xl text-slate-600">
               Authentication Page
-            </div >
+            </div>
             <div className="flex justify-center items-center font-mono">
               {type === "signin"
                 ? "Don't have an account"
                 : "Alread have an account"}
               <Link
-                className="underline pl-2"  
+                className="underline pl-2"
                 to={type === "signin" ? "/signup" : "/signin"}
               >
                 {type === "signin" ? "Sign up " : "Sign in"}
               </Link>{" "}
             </div>
           </div>
+          <div>
+            <InputField label="Email" placeholder="example@gmail.com" onChange={(e)=>setPostInput({
+              ...postInput,
+              username:e.target.value,
+            })} />
+          </div>
         </div>
       </div>
     </div>
   );
 };
-
-
