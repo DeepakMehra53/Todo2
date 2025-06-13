@@ -1,12 +1,13 @@
-import React from 'react'
+import React from "react";
 
 export const Auth = () => {
   return (
-    <div className='w-full'>
-        <div className='flex justify-center h-screen'>
-
-        Authentication Page
+    <div className="flex flex-col justify-center h-screen">
+      <div className="flex justify-center ">
+        <div>
+          <div className="font-semibold text-4xl text-slate-600">Authentication Page</div>
         </div>
+      </div>
     </div>
-  )
-}
+  );
+};
