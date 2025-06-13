@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { InputField } from "./InputField";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { MailIcon, LockIcon, UserIcon } from "../icons/index"; // your custom SVGs as components
+
 
 interface SigninInput {
   name?: string;
@@ -58,10 +60,45 @@ export const Auth = ({ type }: { type: "singup" | "signin" }) => {
             </div>
           </div>
           <div>
-            <InputField label="Email" placeholder="example@gmail.com" onChange={(e)=>setPostInput({
-              ...postInput,
-              username:e.target.value,
-            })} />
+            <InputField
+              icon={<UserIcon />}
+              label="Email"
+              placeholder="Enter your name"
+              onChange={(e) =>
+                setPostInput({
+                  ...postInput,
+                  username: e.target.value,
+                })
+              }
+            />
+            <InputField
+              icon={<MailIcon />}
+              label="Email"
+              placeholder="example@gmail.com"
+              onChange={(e) =>
+                setPostInput({
+                  ...postInput,
+                  username: e.target.value,
+                })
+              }
+            />
+            <InputField
+              icon={<LockIcon />}
+              label="Password"
+              placeholder="sef23#$*gsrs"
+              onChange={(e) =>
+                setPostInput({
+                  ...postInput,
+                  username: e.target.value,
+                })
+              }
+            />
+            <button
+              type="button"
+              className="mt-6 w-full text-white bg-gray-500 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>
