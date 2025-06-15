@@ -11,7 +11,7 @@ interface SigninInput {
   username: string;
   password: string;
 }
-export const Auth = ({ type }: { type: "singup" | "signin" }) => {
+export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const navigate = useNavigate();
 
   const [ postInput,setPostInput] = useState<SigninInput>({
@@ -22,7 +22,7 @@ export const Auth = ({ type }: { type: "singup" | "signin" }) => {
 
   const sendRequest =async()=>{
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/v1/user/${type==="singup"?"signup":"signin"}`,postInput);
+      const res = await axios.post(`${BACKEND_URL}/api/v1/user/${type==="signup"?"signup":"signin"}`,postInput);
       const jwt = res.data.jwt;
       if(!jwt){
         throw new Error ("Token is undefined in response");
@@ -60,17 +60,17 @@ export const Auth = ({ type }: { type: "singup" | "signin" }) => {
             </div>
           </div>
           <div>
-            <InputField
+           {type === "signup" ? (<InputField
               icon={<UserIcon />}
               label="Email"
               placeholder="Enter your name"
               onChange={(e) =>
                 setPostInput({
                   ...postInput,
-                  username: e.target.value,
+                  name: e.target.value,
                 })
               }
-            />
+            />):null}
             <InputField
               icon={<MailIcon />}
               label="Email"
@@ -89,12 +89,13 @@ export const Auth = ({ type }: { type: "singup" | "signin" }) => {
               onChange={(e) =>
                 setPostInput({
                   ...postInput,
-                  username: e.target.value,
+                  password: e.target.value,
                 })
               }
             />
             <button
               type="button"
+              onClick={sendRequest}
               className="mt-6 w-full text-white bg-gray-500 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
             >
               Submit
