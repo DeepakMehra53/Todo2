@@ -9,6 +9,8 @@ export class AuthController {
 
     constructor() {
         this.prisma = new PrismaClient();
+        this.signup=    this.signup.bind(this)
+        this.signin=    this.signin.bind(this)
     }
 
     public signup = async (req: Request, res: Response): Promise<Response> => {
