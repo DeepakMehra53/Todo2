@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import { prisma } from '../models/userModels'
 import { JWT_SECRET } from '../config/default';
 
-export class UseService {
+export class UserService {
     async signup(email: string, password: string, name: string) {
         const existingUser = await prisma.user.findUnique({ where: { email } })
         if (existingUser) throw new Error("User already exists")
