@@ -24,8 +24,8 @@ const signinSchema = z.object({
 })
 
 serve({
-    PORT: 3000,
-    fetch: async (req) => {
+    port: 3000,
+    fetch: async (req:Request) => {
         const url = new URL(req.url)
         const pathname = url.pathname;
         const method = req.method;
@@ -59,5 +59,10 @@ serve({
             const token = sign({id:user.id},JWT_SECRET)
             return  Response.json({success:true,token})
         }
+        return new Response("Not Found", { status: 404 });
     }
+
+
 })
+
+
