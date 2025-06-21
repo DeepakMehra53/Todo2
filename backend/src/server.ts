@@ -3,8 +3,7 @@ import { sign, verify } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import z from 'zod'
 import { serve, password } from 'bun';
-import { success } from "zod/v4";
-import { METHODS } from "http";
+
 
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 
