@@ -1,10 +1,46 @@
-
 import { serve } from "bun";
 import { userRoute } from "./routes/userRouter";
+import { todoRouter } from "./routes/todoRouter";
+import { verify } from "jsonwebtoken";
+import { JWT_SECRET } from "./config/default";
 
 serve({
     port: 3000,
-    fetch: (req) => userRoute(req),
+    fetch: async (req) => {
+        const url = new URL(req.url);
+
+       
+        if (url.pathname.startsWith("/api/v1/user")) {
+            return userRoute(req);
+        }
+
+      
+        const auth = req.headers.get("authorization");
+        if (!auth?.startsWith("Bearer ")) {
+            return new Response("Unauthorized", { status: 401 });
+        }
+
+        try {
+            const token = auth.split(" ")[1];
+            if (!token) return new Response("Unauthorized", { status: 401 });
+
+            const decoded = verify(token, JWT_SECRET);
+
+            if (
+                typeof decoded === "object" &&
+                decoded !== null &&
+                "id" in decoded &&
+                typeof (decoded as any).id === "number"
+            ) {
+                const userId = (decoded as any).id;
+                return todoRouter(req, userId);
+            }
+
+            return new Response("Invalid token payload", { status: 403 });
+        } catch {
+            return new Response("Invalid token", { status: 403 });
+        }
+    },
 });
 
 
