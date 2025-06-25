@@ -2,6 +2,9 @@ import React from 'react'
 
 export const Signup = () => {
   return (
-    <div>Signup</div>
+    <div className='flex justify-center '>
+      <div>Sign </div>
+      <div></div>
+    </div>
   )
 }
